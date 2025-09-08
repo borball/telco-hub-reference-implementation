@@ -19,15 +19,14 @@ The Telco Hub Reference Implementation contains Kubernetes manifests and policie
 ```
 telco-hub-reference-implementation/
 └── policies/
-    └── policies/
-        ├── kustomization.yaml          # Main kustomization file
-        ├── resources/                  # Common resources
-        │   ├── namespaces.yaml        # Namespace definitions
-        │   └── msc-binding.yaml       # ManagedServiceCluster binding
-        ├── 4.18/                      # OpenShift 4.18 configurations
-        │   ├── hub-418-v1/           # Version 1 configuration
-        │   └── hub-418-v2/           # Version 2 configuration
-        └── 4.20/                      # OpenShift 4.20 configurations (future)
+    ├── kustomization.yaml          # Main kustomization file
+    ├── resources/                  # Common resources
+    │   ├── namespaces.yaml        # Namespace definitions
+    │   └── msc-binding.yaml       # ManagedServiceCluster binding
+    ├── 4.18/                      # OpenShift 4.18 configurations
+    │   ├── hub-418-v1/           # Version 1 configuration
+    │   └── hub-418-v2/           # Version 2 configuration
+    └── 4.20/                      # OpenShift 4.20 configurations (future)
 ```
 
 ### Hub Configuration Structure
