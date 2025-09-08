@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hub-418-v1-operator-versions
+  namespace: ztp-global-hub
+data:
+  local-storage-operator: v4.18.0-202507211933
+  odf-operator: v4.18.8-rhodf
+  advanced-cluster-management: v2.13.2
+  openshift-gitops-operator: v1.16.3
+  topology-aware-lifecycle-manager: v4.18.0
+  cluster-logging: v6.2.3

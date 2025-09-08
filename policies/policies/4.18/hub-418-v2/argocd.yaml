@@ -1,0 +1,75 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: hub-418-v2-argocd
+placementBindingDefaults:
+  name: argocd-placement-binding
+policyDefaults:
+  namespace: ztp-global-hub
+  placement:
+    labelSelector:
+      hub: "true"
+      configuration-version: hub-418-v2
+  remediationAction: inform
+  severity: low
+  namespaceSelector:
+    exclude:
+      - kube-*
+    include:
+      - '*'
+  evaluationInterval:
+    compliant: 10m
+    noncompliant: 10s
+policies:
+  - name: hub-418-v2-argocd-applications
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "50"
+    manifests:
+      - path: source-crs/argocd/clusters-sub-ns.yaml
+      - path: source-crs/argocd/policies-sub-ns.yaml
+      - path: source-crs/argocd/argocd-plugins.yaml
+      - path: source-crs/argocd/app-project.yaml
+      - path: source-crs/argocd/policies-app-project.yaml
+      - path: source-crs/argocd/gitops-cluster-rolebinding.yaml
+      - path: source-crs/argocd/gitops-policy-rolebinding.yaml
+
+      - path: source-crs/argocd/clusters-app.yaml
+        patches:
+          - spec:
+              source:
+                repoURL: '{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "clusters-repo-url" hub}}'
+                targetRevision: '{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "clusters-repo-branch" hub}}'
+                path: '{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "clusters-repo-path" hub}}'
+      - path: source-crs/argocd/policies-app.yaml
+        patches:
+          - spec:
+              source:
+                repoURL: '{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "policies-repo-url" hub}}'
+                targetRevision: '{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "policies-repo-branch" hub}}'
+                path: '{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "policies-repo-path" hub}}'
+      - path: source-crs/argocd/git-repo-secret.yaml
+        patches:
+          - metadata:
+              name: clusters-repo
+            data:
+              insecure: dHJ1ZQ==
+              sshPrivateKey: |
+                {{hub fromSecret "ztp-global-hub" (printf "ztp-site-%s-secret" .ManagedClusterName) "clusters-repo-ssh-key" hub}}
+              url: '{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "clusters-repo-url" | base64enc hub}}'
+      - path: source-crs/argocd/git-repo-secret.yaml
+        patches:
+          - metadata:
+              name: policies-repo
+            data:
+              insecure: dHJ1ZQ==
+              sshPrivateKey: |
+                {{hub fromSecret "ztp-global-hub" (printf "ztp-site-%s-secret" .ManagedClusterName) "policies-repo-ssh-key" hub}}
+              url: '{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "policies-repo-url" | base64enc hub}}'
+
+# todo: 
+# echo "Then go to your git repo, click Settings -> Security -> Deploy keys"
+# echo "Add a new deploy key"
+# echo "Title: argocd"
+# echo "Key: $(cat /tmp/github-ed25519.pub)"
+# echo

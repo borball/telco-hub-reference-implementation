@@ -1,0 +1,39 @@
+---
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  name: ocs-storagecluster
+  namespace: openshift-storage
+status:
+  phase: Ready
+
+---
+apiVersion: operator.open-cluster-management.io/v1
+kind: MultiClusterHub
+metadata:
+  name: multiclusterhub
+  namespace: open-cluster-management
+status:
+  phase: Running
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: clusters
+  namespace: openshift-gitops
+status:
+  health:
+    status: Healthy
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: policies
+  namespace: openshift-gitops
+status:
+  health:
+    status: Healthy
+  sync:
+    status: Synced

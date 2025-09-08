@@ -1,0 +1,39 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: hub-418-v1-validator
+placementBindingDefaults:
+  name: validator-placement-binding
+policyDefaults:
+  namespace: ztp-global-hub
+  # Use an existing placement rule so that placement bindings can be consolidated
+  placement:
+    labelSelector:
+      matchExpressions:
+      - key: hub
+        operator: Exists
+      - key: configuration-version
+        operator: In
+        values: ["hub-418-v1"]
+      - key: ztp-done
+        operator: DoesNotExist
+  remediationAction: inform
+  severity: low
+  # standards: []
+  namespaceSelector:
+    exclude:
+      - kube-*
+    include:
+      - '*'
+  evaluationInterval:
+   # This low setting is only valid if the validation policy is disconnected from the cluster at steady-state
+   # using a bindingExcludeRules entry with ztp-done
+    compliant: 5s
+    noncompliant: 10s
+policies:
+  - name: hub-418-v1-validator
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "1000"
+    manifests:
+      - path: source-crs/validator/validator.yaml

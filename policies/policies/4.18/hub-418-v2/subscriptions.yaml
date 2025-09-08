@@ -1,0 +1,92 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: subscriptions-policy
+placementBindingDefaults:
+  name: subscriptions-placement-binding
+policyDefaults:
+  namespace: ztp-global-hub
+  placement:
+    labelSelector:
+      hub: "true"
+      configuration-version: hub-418-v2
+  remediationAction: inform
+  severity: low
+  namespaceSelector:
+    exclude:
+      - kube-*
+    include:
+      - "*"
+  evaluationInterval:
+    compliant: 10m
+    noncompliant: 10s
+policies:
+  - name: hub-418-v2-subs-local-storage
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+      - path: source-crs/local-storage/StorageLocalNS.yaml
+      - path: source-crs/local-storage/StorageLocalOperGroup.yaml
+      - path: source-crs/local-storage/StorageLocalSubscription.yaml
+        patches:
+          - spec:
+              startingCSV: local-storage-operator.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "local-storage-operator" hub}}
+            status:
+              installedCSV: local-storage-operator.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "local-storage-operator" hub}}
+  - name: hub-418-v2-subs-odf
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+      - path: source-crs/odf/StorageFoundationNS.yaml
+      - path: source-crs/odf/StorageFoundationOperGroup.yaml
+      - path: source-crs/odf/StorageFoundationSubscription.yaml
+        patches:
+          - spec:
+              startingCSV: odf-operator.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "odf-operator" hub}}
+            status:
+              installedCSV: odf-operator.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "odf-operator" hub}}
+  - name: hub-418-v2-subs-rhacm
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+      - path: source-crs/rhacm/AdvancedClusterManagementNS.yaml
+      - path: source-crs/rhacm/AdvancedClusterManagementOperatorGroup.yaml
+      - path: source-crs/rhacm/AdvancedClusterManagementSubscription.yaml
+        patches:
+          - spec:
+              startingCSV: advanced-cluster-management.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "advanced-cluster-management" hub}}
+            status:
+              installedCSV: advanced-cluster-management.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "advanced-cluster-management" hub}}
+  - name: hub-418-v2-subs-gitops
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+      - path: source-crs/gitops/GitopsSubscription.yaml
+        patches:
+          - spec:
+              startingCSV: openshift-gitops-operator.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "openshift-gitops-operator" hub}}
+            status:
+              installedCSV: openshift-gitops-operator.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "openshift-gitops-operator" hub}}
+  - name: hub-418-v2-subs-talm
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+      - path: source-crs/talm/TopologyAwareLifeCycleManagerSubscription.yaml
+        patches:
+          - spec:
+              startingCSV: topology-aware-lifecycle-manager.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "topology-aware-lifecycle-manager" hub}}
+            status:
+              installedCSV: topology-aware-lifecycle-manager.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "topology-aware-lifecycle-manager" hub}}
+  - name: hub-418-v2-subs-cluster-logging
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+      - path: source-crs/cluster-logging/ClusterLogNS.yaml
+      - path: source-crs/cluster-logging/ClusterLogOperGroup.yaml
+      - path: source-crs/cluster-logging/ClusterLogSubscription.yaml
+        patches:
+          - spec:
+              startingCSV: cluster-logging.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "cluster-logging" hub}}
+            status:
+              installedCSV: cluster-logging.{{hub fromConfigMap "ztp-global-hub" "hub-418-v2-operator-versions" "cluster-logging" hub}}

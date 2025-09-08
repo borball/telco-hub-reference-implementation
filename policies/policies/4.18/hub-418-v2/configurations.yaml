@@ -1,0 +1,39 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: hub-418-v2-configurations-policy
+placementBindingDefaults:
+  name: configurations-placement-binding
+policyDefaults:
+  namespace: ztp-global-hub
+  placement:
+    labelSelector:
+      hub: "true"
+      configuration-version: hub-418-v2
+  remediationAction: inform
+  severity: low
+  namespaceSelector:
+    exclude:
+      - kube-*
+    include:
+      - "*"
+  evaluationInterval:
+    compliant: 10m
+    noncompliant: 10s
+policies:
+  - name: hub-418-v2-storage-config
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "20"
+    manifests:
+      - path: source-crs/local-storage/LocalVolumeDiscovery.yaml
+      - path: source-crs/local-storage/LocalVolumeSet.yaml
+      - path: source-crs/odf/StorageCluster.yaml
+
+  - name: hub-418-v2-rhacm-config
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "30"
+    manifests:
+      - path: source-crs/rhacm/Provisioning.yaml
+      - path: source-crs/rhacm/MultiClusterHub.yaml
+      - path: source-crs/rhacm/AgentServiceConfig.yaml
