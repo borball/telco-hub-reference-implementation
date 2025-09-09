@@ -4,6 +4,8 @@ metadata:
   name: hub-418-v1-operator-versions
   namespace: ztp-global-hub
 data:
+  ztp-site-generate-rhel8: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.18.1-1
+  multicluster-operators-subscription-rhel9: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.13.3-7
   local-storage-operator: v4.18.0-202507211933
   odf-operator: v4.18.8-rhodf
   advanced-cluster-management: v2.13.2

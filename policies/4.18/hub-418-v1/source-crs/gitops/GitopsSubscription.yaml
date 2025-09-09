@@ -7,5 +7,6 @@ metadata:
 spec:
   name: openshift-gitops-operator
   source: redhat-operators
+  channel: gitops-1.16
   sourceNamespace: openshift-marketplace
   installPlanApproval: Manual
