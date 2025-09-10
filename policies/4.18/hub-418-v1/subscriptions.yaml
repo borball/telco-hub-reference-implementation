@@ -94,6 +94,8 @@ policies:
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
+      - path: source-crs/amq-streams/AmqStreamsNS.yaml
+      - path: source-crs/amq-streams/AmqStreamsOperGroup.yaml
       - path: source-crs/amq-streams/AmqStreamsSubscription.yaml
         patches:
           - spec:
@@ -104,6 +106,8 @@ policies:
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
+      - path: source-crs/amq-streams-console/AmqStreamsConsoleNS.yaml
+      - path: source-crs/amq-streams-console/AmqStreamsConsoleOperGroup.yaml
       - path: source-crs/amq-streams-console/AmqStreamsConsoleSubscription.yaml
         patches:
           - spec:
