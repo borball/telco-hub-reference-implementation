@@ -90,3 +90,23 @@ policies:
               startingCSV: cluster-logging.{{hub fromConfigMap "ztp-global-hub" "hub-418-v1-operator-versions" "cluster-logging" hub}}
             status:
               installedCSV: cluster-logging.{{hub fromConfigMap "ztp-global-hub" "hub-418-v1-operator-versions" "cluster-logging" hub}}
+  - name: hub-418-v1-subs-amq-streams
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+      - path: source-crs/amq-streams/AmqStreamsSubscription.yaml
+        patches:
+          - spec:
+              startingCSV: amqstreams.{{hub fromConfigMap "ztp-global-hub" "hub-418-v1-operator-versions" "amqstreams" hub}}
+            status:
+              installedCSV: amqstreams.{{hub fromConfigMap "ztp-global-hub" "hub-418-v1-operator-versions" "amqstreams" hub}}
+  - name: hub-418-v1-subs-amq-streams-console
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "10"
+    manifests:
+      - path: source-crs/amq-streams-console/AmqStreamsConsoleSubscription.yaml
+        patches:
+          - spec:
+              startingCSV: amq-streams-console.{{hub fromConfigMap "ztp-global-hub" "hub-418-v1-operator-versions" "amq-streams-console" hub}}
+            status:
+              installedCSV: amq-streams-console.{{hub fromConfigMap "ztp-global-hub" "hub-418-v1-operator-versions" "amq-streams-console" hub}}

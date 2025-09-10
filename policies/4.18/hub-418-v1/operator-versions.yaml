@@ -12,3 +12,5 @@ data:
   openshift-gitops-operator: v1.16.3
   topology-aware-lifecycle-manager: v4.18.0
   cluster-logging: v6.2.3
+  amqstreams: v2.9.1-2
+  amq-streams-console: v2.9.1-7
