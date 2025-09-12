@@ -13,6 +13,8 @@ The Telco Hub Reference Implementation contains Kubernetes manifests and policie
 - **Local Storage Operator** - Local storage management
 - **Topology Aware Lifecycle Manager (TALM)** - Lifecycle management for edge clusters
 - **Cluster Logging** - Centralized logging solution
+- **AMQ Streams (Apache Kafka)** - Event streaming platform for real-time data processing
+- **AMQ Streams Console** - Web-based management console for Kafka clusters
 
 ## Repository Structure
 
@@ -37,13 +39,14 @@ Each hub configuration (e.g., `hub-418-v1`, `hub-418-v2`) contains:
 - **subscriptions.yaml** - PolicyGenerator for operator subscriptions
 - **configurations.yaml** - PolicyGenerator for operator configurations
 - **argocd.yaml** - PolicyGenerator for ArgoCD setup
+- **kafka.yaml** - PolicyGenerator for Kafka/AMQ Streams setup
 - **validator.yaml** - PolicyGenerator for validation policies
 - **operator-versions.yaml** - ConfigMap with specific operator versions
 - **source-crs/** - Directory containing source Custom Resources for each component
 
 ## Prerequisites
 
-Before using this repository, ensure you have:
+Before using this repository, ensure you have following setup on the management hub:
 
 1. **OpenShift Cluster** - A running OpenShift 4.18+ cluster
 2. **RHACM Hub** - Red Hat Advanced Cluster Management installed and configured
@@ -64,28 +67,46 @@ Policies are configured to target clusters with the following labels:
 
 ### Operator Versions
 
-Each hub configuration includes a `operator-versions.yaml` ConfigMap that specifies the exact versions of operators to be deployed, en example in hub-418-v1
+Each hub configuration includes a `operator-versions.yaml` ConfigMap that specifies the exact versions of operators to be deployed, an example in hub-418-v1
+
+- **Local Storage Operator**: v4.18.0-202508201347
+- **ODF Operator**: v4.18.9-rhodf
+- **Advanced Cluster Management**: v2.13.3
+- **OpenShift GitOps Operator**: v1.16.3
+- **Topology Aware Lifecycle Manager**: v4.18.1
+- **Cluster Logging**: v6.2.4
+- **AMQ Streams**: v2.9.2-0
+- **AMQ Streams Console**: v2.9.2-1
+
+Example versions in hub-418-v2:
 
 - **Local Storage Operator**: v4.18.0-202507211933
-- **ODF Operator**: v4.18.8-rhodf
-- **Advanced Cluster Management**: v2.13.2
-- **OpenShift GitOps Operator**: v1.16.3
-- **Topology Aware Lifecycle Manager**: v4.18.0
-- **Cluster Logging**: v6.2.3
+- **ODF Operator**: v4.18.9-rhodf
+- **Advanced Cluster Management**: v2.14.0
+- **OpenShift GitOps Operator**: v1.17.1
+- **Topology Aware Lifecycle Manager**: v4.18.1
+- **Cluster Logging**: v6.2.4
+- **AMQ Streams**: v2.9.1-2
+- **AMQ Streams Console**: v2.9.1-7
 
 ### Policy Placement
 
-Policies are configured to target clusters with the following labels:
+Policies are configured to target clusters with the following cluster labels:
 - `hub: "true"`
 - `configuration-version: hub-418-v1` (or `hub-418-v2`)
+
+Make sure you have those settings in the ClusterInstance CR when you install the managed hubs. 
 
 ### Deployment Waves
 
 Components are deployed in waves using the `ran.openshift.io/ztp-deploy-wave` annotation:
-- **Wave 10**: Operator subscriptions (Local Storage, ODF, RHACM, GitOps, TALM, Cluster Logging)
-- **Wave 20**: Operator configurations
-- **Wave 30**: ArgoCD applications and configurations
-- **Wave 1000**: Validator to check if major configurations are in placed and working properly
+- **Wave 10**: Operator subscriptions (Local Storage, ODF, RHACM, GitOps, TALM, Cluster Logging, AMQ Streams, AMQ Streams Console)
+- **Wave 20**: Operator configurations (Storage configurations)
+- **Wave 30**: Operator configurations (RHACM and MultiClusterHub)
+- **Wave 50**: ArgoCD applications and configurations
+- **Wave 60**: Kafka cluster configuration
+- **Wave 65**: AMQ Streams Console configuration
+- **Wave 1000**: Validator to check if major configurations are in place and working properly
 
 ## Customization
 
