@@ -37,3 +37,25 @@ status:
     status: Healthy
   sync:
     status: Synced
+
+---
+apiVersion: kafka.strimzi.io/v1beta2
+kind: Kafka
+metadata:
+  name: spoke-logs
+  namespace: amq-streams
+status:
+  conditions:
+    - type: Ready
+      status: "True"
+
+---
+apiVersion: console.streamshub.github.com/v1alpha1
+kind: Console
+metadata:
+  name: kafka-console
+  namespace: amq-streams
+status:
+  conditions:
+  - status: "True"
+    type: Ready

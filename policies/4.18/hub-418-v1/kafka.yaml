@@ -1,0 +1,52 @@
+---
+apiVersion: policy.open-cluster-management.io/v1
+kind: PolicyGenerator
+metadata:
+  name: hub-418-v1-kafka
+placementBindingDefaults:
+  name: kafka-placement-binding
+policyDefaults:
+  namespace: ztp-global-hub
+  placement:
+    labelSelector:
+      hub: "true"
+      configuration-version: hub-418-v1
+  remediationAction: inform
+  severity: low
+  namespaceSelector:
+    exclude:
+      - kube-*
+    include:
+      - '*'
+  evaluationInterval:
+    compliant: 10m
+    noncompliant: 10s
+policies:
+  - name: hub-418-v1-kafka
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "60"
+    manifests:
+      - path: source-crs/amq-streams/Kafka.yaml
+      - path: source-crs/amq-streams/KafkaTopic.yaml
+      - path: source-crs/amq-streams/KafkaUser.yaml
+        patches:
+          - metadata:
+              name: spoke-logs-user
+            spec:
+              authentication:
+                type: tls
+      - path: source-crs/amq-streams/KafkaUser.yaml
+        patches:
+          - metadata:
+              name: kafka-console-user
+            spec:
+              authentication:
+                type: scram-sha-512
+  - name: hub-418-v1-kafka-console
+    policyAnnotations:
+      ran.openshift.io/ztp-deploy-wave: "65"
+    manifests:
+      - path: source-crs/amq-streams-console/Console.yaml
+        patches:
+          - spec:
+              hostname: spoke-logs-console.apps.{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "cluster-name" hub}}.{{hub fromConfigMap "ztp-global-hub" (printf "ztp-site-%s-config" .ManagedClusterName) "cluster-domain" hub}}

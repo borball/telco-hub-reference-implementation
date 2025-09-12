@@ -1,0 +1,10 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: amq-streams
+  namespace: amq-streams
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
+spec:
+  targetNamespaces:
+    - amq-streams

@@ -1,0 +1,7 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: amq-streams-console
+  namespace: amq-streams-console
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"

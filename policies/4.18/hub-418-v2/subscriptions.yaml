@@ -62,6 +62,8 @@ policies:
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
+      - path: source-crs/gitops/GitopsNS.yaml
+      - path: source-crs/gitops/GitopsOperGroup.yaml
       - path: source-crs/gitops/GitopsSubscription.yaml
         patches:
           - spec:
@@ -72,6 +74,8 @@ policies:
     policyAnnotations:
       ran.openshift.io/ztp-deploy-wave: "10"
     manifests:
+      - path: source-crs/talm/TopologyAwareLifeCycleManagerNS.yaml
+      - path: source-crs/talm/TopologyAwareLifeCycleManagerOperGroup.yaml
       - path: source-crs/talm/TopologyAwareLifeCycleManagerSubscription.yaml
         patches:
           - spec:

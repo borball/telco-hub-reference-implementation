@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: openshift-topology-aware-lifecycle-manager
+  annotations:
+    workload.openshift.io/allowed: management
+    ran.openshift.io/ztp-deploy-wave: "2"

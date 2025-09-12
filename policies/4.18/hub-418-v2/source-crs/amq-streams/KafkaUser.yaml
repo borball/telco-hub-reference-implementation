@@ -1,0 +1,10 @@
+apiVersion: kafka.strimzi.io/v1beta2
+kind: KafkaUser
+metadata:
+  name: user-name
+  labels:
+    strimzi.io/cluster: spoke-logs
+  namespace: amq-streams
+spec:
+  authentication:
+    type: ""

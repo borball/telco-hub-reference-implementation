@@ -8,4 +8,5 @@ generators:
 - subscriptions.yaml
 - configurations.yaml
 - argocd.yaml
+- kafka.yaml
 - validator.yaml

@@ -1,0 +1,15 @@
+apiVersion: console.streamshub.github.com/v1alpha1
+kind: Console
+metadata:
+  name: spoke-logs-console
+  namespace: amq-streams-console
+spec:
+  kafkaClusters:
+    - name: spoke-logs
+      credentials:
+        kafkaUser:
+          name: kafka-console-user
+          namespace: amq-streams
+      listener: tls
+      namespace: amq-streams
+  hostname: ""

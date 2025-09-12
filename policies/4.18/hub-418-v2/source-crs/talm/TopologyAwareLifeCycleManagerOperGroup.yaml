@@ -1,0 +1,7 @@
+apiVersion: operators.coreos.com/v1
+kind: OperatorGroup
+metadata:
+  name: openshift-topology-aware-lifecycle-manager
+  namespace: openshift-topology-aware-lifecycle-manager
+  annotations:
+    ran.openshift.io/ztp-deploy-wave: "2"
