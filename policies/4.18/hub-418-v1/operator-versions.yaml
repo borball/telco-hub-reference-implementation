@@ -6,11 +6,11 @@ metadata:
 data:
   ztp-site-generate-rhel8: registry.redhat.io/openshift4/ztp-site-generate-rhel8:v4.18.1-1
   multicluster-operators-subscription-rhel9: registry.redhat.io/rhacm2/multicluster-operators-subscription-rhel9:v2.13.3-7
-  local-storage-operator: v4.18.0-202507211933
-  odf-operator: v4.18.8-rhodf
-  advanced-cluster-management: v2.13.2
+  local-storage-operator: v4.18.0-202508201347
+  odf-operator: v4.18.9-rhodf
+  advanced-cluster-management: v2.13.3
   openshift-gitops-operator: v1.16.3
-  topology-aware-lifecycle-manager: v4.18.0
-  cluster-logging: v6.2.3
-  amqstreams: v2.9.1-2
-  amq-streams-console: v2.9.1-7
+  topology-aware-lifecycle-manager: v4.18.1
+  cluster-logging: v6.2.4
+  amqstreams: v2.9.2-0
+  amq-streams-console: v2.9.2-1
