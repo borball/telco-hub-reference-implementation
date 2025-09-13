@@ -5,6 +5,7 @@ metadata:
   name: advanced-cluster-management
   namespace: open-cluster-management
 spec:
+  channel: release-2.14
   name: advanced-cluster-management
   source: redhat-operators
   sourceNamespace: openshift-marketplace

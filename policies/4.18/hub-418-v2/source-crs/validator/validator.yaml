@@ -49,13 +49,13 @@ status:
     - type: Ready
       status: "True"
 
----
-apiVersion: console.streamshub.github.com/v1alpha1
-kind: Console
-metadata:
-  name: kafka-console
-  namespace: amq-streams
-status:
-  conditions:
-  - status: "True"
-    type: Ready
+# ---
+# apiVersion: console.streamshub.github.com/v1alpha1
+# kind: Console
+# metadata:
+#   name: spoke-logs-console
+#   namespace: amq-streams
+# status:
+#   conditions:
+#   - status: "True"
+#     type: Ready
